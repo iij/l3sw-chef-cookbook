@@ -1,23 +1,23 @@
-# pica8-chef-cookbook
+# l3sw-chef-cookbook
 
-Pica8 Chef Cookbook.
+l3sw Chef Cookbook.
 
 ## What's Pica8 Chef Cookbook?
-Pica8 Chef Cookbook is a collection of recipes which configures
-pica8 system.
+l3sw Chef Cookbook is a collection of recipes which configures
+L3 switch.
 
-## pica8-chef-cookbooks home-page
+## l3sw-chef-cookbooks home-page
 
-pica8-chef-cookbook's website is not launched yet but we are actively
+l3sw-chef-cookbook's website is not launched yet but we are actively
 working on it.
 
 The URL of the home-page will be:
 
-  https://github.com/iij/pica8-chef-cookbook/wiki
+  https://github.com/iij/l3sw-chef-cookbook/wiki
 
 ## License
 
-pica8-chef-cookbook is subject to this license:
+l3sw-chef-cookbook is subject to this license:
 ```
 /*-
  * Copyright (c) 2013, Internet Initiative Japan Inc.
