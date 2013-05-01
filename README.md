@@ -2,7 +2,7 @@
 
 l3sw Chef Cookbook.
 
-## What's Pica8 Chef Cookbook?
+## What's l3sw Chef Cookbook?
 l3sw Chef Cookbook is a collection of recipes which configures
 L3 switch.
 
