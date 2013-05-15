@@ -1,22 +1,61 @@
-# l3sw-chef-cookbook
-
-l3sw Chef Cookbook.
-
-## What's l3sw Chef Cookbook?
+l3sw-chef-cookbook Cookbook
+===========================
 l3sw Chef Cookbook is a collection of recipes which configures
 L3 switch.
 
-## l3sw-chef-cookbooks home-page
+Requirements
+------------
+Supported platform: pica8, edgemax(not yet), arista(not yet)
 
-l3sw-chef-cookbook's website is not launched yet but we are actively
-working on it.
+Attributes
+----------
+TODO: List you cookbook attributes here.
 
-The URL of the home-page will be:
+e.g.
+#### l3sw-chef-cookbook::default
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td><tt>['l3sw-chef-cookbook']['bacon']</tt></td>
+    <td>Boolean</td>
+    <td>whether to include bacon</td>
+    <td><tt>true</tt></td>
+  </tr>
+</table>
 
-  https://github.com/iij/l3sw-chef-cookbook/wiki
+Usage
+-----
+#### l3sw-chef-cookbook::default
+TODO: Write usage instructions for each cookbook.
 
-## License
+e.g.
+Just include `l3sw-chef-cookbook` in your node's `run_list`:
 
+```json
+{
+  "name":"my_node",
+  "run_list": [
+    "recipe[l3sw-chef-cookbook]"
+  ]
+}
+```
+
+Contributing
+------------
+1. Fork the repository on Github
+2. Create a named feature branch (like `add_component_x`)
+3. Write you change
+4. Write tests for your change (if applicable)
+5. Run the tests, ensuring they all pass
+6. Submit a Pull Request using Github
+
+License and Authors
+-------------------
 l3sw-chef-cookbook is subject to this license:
 ```
 /*-
@@ -46,5 +85,3 @@ l3sw-chef-cookbook is subject to this license:
  */
 ```
 
-## How to Contribute
-Contributions are Welcome!
