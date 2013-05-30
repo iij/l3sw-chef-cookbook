@@ -22,3 +22,7 @@
 #  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 #  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #  POSSIBILITY OF SUCH DAMAGE.
+
+# system
+default['l3sw']['system']['hostname'] = Chef::Config[:node_name]
+default['l3sw']['system']['timezone'] = "Asia/Tokyo"

@@ -25,3 +25,36 @@
 #  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 #  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #  POSSIBILITY OF SUCH DAMAGE.
+
+case node["platform_family"]
+when "pica8"
+
+  l3sw = Pica8Config.new
+  conf = l3sw.config_raw_get
+
+  config_changed = false
+
+  # hostname
+  hostname_candidate = node['l3sw']['system']['hostname']
+  hostname_running = conf['system']['hostname'].slice!(0).chop!
+  if hostname_running != nil and
+      hostname_running != hostname_candidate
+    conf['system']['hostname'] = "\"#{hostname_candidate}\""
+    config_changed = true
+  end
+
+  # timezone
+  tz_candidate = node['l3sw']['system']['timezone']
+  tz_running = conf['system']['timezone'].slice!(0).chop!
+  if tz_running != nil and
+      tz_running != tz_candidate
+    conf['system']['timezone'] = "\"#{tz_candidate}\""
+    config_changed = true
+  end
+
+  # apply config
+  if config_changed
+    l3sw.config_apply(conf)
+    log "Configuration is changed (applied)"
+  end
+end
