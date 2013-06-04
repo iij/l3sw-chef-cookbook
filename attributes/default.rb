@@ -26,3 +26,4 @@
 # system
 default['l3sw']['system']['hostname'] = Chef::Config[:node_name]
 default['l3sw']['system']['timezone'] = "Asia/Tokyo"
+default['l3sw']['protocols']['static'] = nil

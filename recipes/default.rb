@@ -52,6 +52,38 @@ when "pica8"
     config_changed = true
   end
 
+  # interface
+  if_candidate = node['l3sw']['interface']
+  if_running = conf['interface']
+  if if_candidate != nil
+    if_candidate.each_key do |ki|
+      if ki == "gigabit-ethernet"
+        if_candidate[ki].each_key do |kifn|
+          # description
+          desc_candid = if_candidate[ki][kifn]['description']
+          if desc_candid != nil
+            if_running["#{ki}:\"#{kifn}\""]['description'] = "\"#{desc_candid}\""
+            config_changed = true
+          end
+        end
+      end
+    end
+  end
+
+  # static route
+  rt_candidate = node['l3sw']['protocols']['static']
+  if rt_candidate != nil
+    rt_edit = Hash.new
+    rt_candidate.each_key do |dst|
+      # next-hop
+      rt_edit["route:#{dst}"] = Hash.new
+      rt_edit["route:#{dst}"]['next-hop'] = rt_candidate[dst]['next-hop']
+      p rt_edit
+      config_changed = true
+    end
+    conf['protocols']['static'] = rt_edit
+  end
+
   # apply config
   if config_changed
     l3sw.config_apply(conf)
