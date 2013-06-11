@@ -150,7 +150,12 @@ class Pica8Config
         @of.puts "}"
       else
         indent_make(indent)
-        @of.puts "#{k}: #{conf[k]}"
+        # XXX void param
+        if conf[k][0] == ':'
+          @of.puts "#{k} #{conf[k][1..-1]}"
+        else
+          @of.puts "#{k}: #{conf[k]}"
+        end
       end
     end
   end

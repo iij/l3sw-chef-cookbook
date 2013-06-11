@@ -26,6 +26,16 @@
 #  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #  POSSIBILITY OF SUCH DAMAGE.
 
+def strfy(str)
+  return '"' + str + '"'
+end
+
+def hash_new(h, key)
+  if h[key] == nil
+    h[key] = Hash.new
+  end
+end
+
 case node["platform_family"]
 when "pica8"
 
@@ -65,6 +75,33 @@ when "pica8"
             if_running["#{ki}:\"#{kifn}\""]['description'] = "\"#{desc_candid}\""
             config_changed = true
           end
+
+          # family
+          fm_candid = if_candidate[ki][kifn]['family']
+          if fm_candid != nil
+            es_candid = fm_candid['ethernet-switching']
+            if es_candid != nil
+              pm_candid = es_candid['port-mode']
+              if pm_candid != nil
+                hash_new(if_running["#{ki}:\"#{kifn}\""], 'family')
+                hash_new(if_running["#{ki}:\"#{kifn}\""]['family'], 'ethernet-switching')
+                if_running["#{ki}:\"#{kifn}\""]['family']['ethernet-switching']['port-mode'] = strfy(pm_candid)
+                config_changed = true
+              end
+              vl_candid = es_candid['vlan']
+              if vl_candid != nil
+                vm_candid = vl_candid['members']
+                if vm_candid != nil
+                  hash_new(if_running["#{ki}:\"#{kifn}\""], 'family')
+                  hash_new(if_running["#{ki}:\"#{kifn}\""]['family'], 'ethernet-switching')
+                  hash_new(if_running["#{ki}:\"#{kifn}\""]['family']['ethernet-switching'], 'vlan')
+                  hash_new(if_running["#{ki}:\"#{kifn}\""]['family']['ethernet-switching']['vlan'], 'members')
+                  if_running["#{ki}:\"#{kifn}\""]['family']['ethernet-switching']['vlan']['members'] = ':' + vm_candid.to_s
+                  config_changed = true
+                end
+              end
+            end
+          end
         end
       end
     end
@@ -78,10 +115,36 @@ when "pica8"
       # next-hop
       rt_edit["route:#{dst}"] = Hash.new
       rt_edit["route:#{dst}"]['next-hop'] = rt_candidate[dst]['next-hop']
-      p rt_edit
       config_changed = true
     end
     conf['protocols']['static'] = rt_edit
+  end
+
+  # vlans
+  vlan_candidate = node['l3sw']['vlans']['vlan-id']
+  if vlan_candidate != nil
+    vlan_edit = Hash.new
+    vlan_candidate.each_key do |vlanid|
+      ve = Hash.new
+      vlan_edit["vlan-id:#{vlanid}"] = ve
+      if vlan_candidate[vlanid]['description'] != nil
+        ve['description'] = strfy(vlan_candidate[vlanid]['description'])
+      else
+        ve['description'] = strfy('')
+      end
+      if vlan_candidate[vlanid]['vlan-name'] != nil
+        ve['vlan-name'] = strfy(vlan_candidate[vlanid]['vlan-name'])
+      else
+        ve['vlan-name'] = strfy('default')
+      end
+      if vlan_candidate[vlanid]['l3-interface'] != nil
+        ve['l3-interface'] = strfy(vlan_candidate[vlanid]['l3-interface'])
+      else
+        ve['l3-interface'] = strfy('')
+      end
+      conf['vlans'] = vlan_edit
+      config_changed = true
+    end
   end
 
   # apply config
